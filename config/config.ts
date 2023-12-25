@@ -87,7 +87,7 @@ export default defineConfig({
    */
   title: defaultSettings?.title,
   layout: {
-    locale: true,
+    locale: false,
     ...defaultSettings,
   },
   /**
