@@ -49,7 +49,7 @@ export const errorConfig: RequestConfig = {
     (config: RequestOptions) => {
       const { headers, url, ...restProps } = config;
       const isLogin = url?.includes('/login');
-      const token = localStorage.getItem('RKLINK_OA_TOKEN') || '';
+      const token = localStorage.getItem('EVIL_PRO_CLI_TOKEN') || '';
       const time = dayjs(`${new Date()}`).format('YYYYMMDDHHmmsssss');
       return isLogin
         ? config

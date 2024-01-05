@@ -29,7 +29,6 @@ export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: API.CurrentUser;
   loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -45,13 +44,11 @@ export async function getInitialState(): Promise<{
   if (location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
     return {
-      fetchUserInfo,
       currentUser,
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
   return {
-    fetchUserInfo,
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
