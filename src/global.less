@@ -52,6 +52,29 @@ ol {
   }
 }
 
+/*滚动条样式*/
+::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 14px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 14px;
+}
+::-webkit-scrollbar-thumb {
+  border: 4px solid rgba(0, 0, 0, 0);
+  /*滚动条里面小方块*/
+  border-radius: 14px;
+  // border-bottom: 4px solid rgba(0, 0, 0, 0);
+  box-shadow: 6px 6px #d4d9e2 inset;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ea5b2;
+  box-shadow: 6px 6px #9ea5b2 inset;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  /*滚动条里面轨道*/
+  border-radius: 0;
+}
+
 // 在使用浏览器保存的数据时 输入框的样式
 input:-webkit-autofill,
 textarea:-webkit-autofill,
@@ -69,4 +92,51 @@ select:-webkit-autofill {
 
 a {
   color: var(--ant-primary-color);
+  &:not(:disabled)&:not(.ant-btn-disabled)&:hover {
+    color: var(--ant-primary-color-hover);
+  }
+}
+
+// 组件样式重置
+.ant-layout-content {
+  min-height: calc(100vh - 120px) !important;
+}
+// link 按钮
+.ant-btn-link {
+  color: var(--ant-primary-color);
+  &:not(:disabled)&:not(.ant-btn-disabled)&:hover {
+    color: var(--ant-primary-color-hover);
+  }
+}
+
+// modal
+.ant-modal {
+  .ant-modal-header {
+    margin-bottom: 16px;
+  }
+}
+
+// container
+
+.ant-pro-page-container {
+  .ant-page-header {
+    background-color: #fff;
+  }
+}
+// 底部
+.ant-layout-footer {
+  .ant-pro-global-footer {
+    margin: 24px 0;
+  }
+}
+
+// 公共样式
+
+.inner-table-link {
+  height: auto;
+  padding: 0;
+  line-height: 16px;
+}
+.rk-none {
+  display: none;
 }
