@@ -6,8 +6,8 @@ export default {
     res.status(200).send({
       code: 200,
       data: {
-        name: '李敏',
-        avatar: 'https://avatars1.githubusercontent.com/u/8186664?s=40&v=4',
+        name: '李开心',
+        avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
         userid: '52EbC20E-20fd-74CE-337B-a5F69deeE871',
         email: 's.cbbvov@ccl.lu',
         signature: '型几据院但要指交管象引到此。',

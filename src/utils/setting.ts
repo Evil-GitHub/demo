@@ -15,6 +15,7 @@ export const defaultTableConfig: Record<string, any> = {
   scroll: { x: 'max-content' },
   form: {
     syncToUrl: true,
+    syncToInitialValues: false,
   },
 };
 

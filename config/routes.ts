@@ -23,14 +23,14 @@ export default [
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
+    path: '/earnings-comparison',
+    name: '财报对比',
+    icon: 'FundView',
+    component: './EarningsComparison',
   },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/earnings-comparison',
   },
   {
     path: '*',
