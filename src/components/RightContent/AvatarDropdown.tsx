@@ -1,4 +1,4 @@
-import { outLogin } from '@/services/evil-pro-cli/login';
+import { waitTime } from '@/pages/EarningsComparison/utils';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
 import { Spin } from 'antd';
@@ -43,7 +43,9 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
    * 退出登录，并且将当前的 url 保存
    */
   const loginOut = async () => {
-    await outLogin();
+    await waitTime(1000);
+    localStorage.setItem('EVIL_PRO_CLI_TOKEN', '');
+
     const { search, pathname } = window.location;
     const urlParams = new URL(window.location.href).searchParams;
     /** 此方法会跳转到 redirect 参数所在的位置 */
@@ -72,7 +74,6 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
         loginOut();
         return;
       }
-      history.push(`/account/${key}`);
     },
     [setInitialState],
   );
