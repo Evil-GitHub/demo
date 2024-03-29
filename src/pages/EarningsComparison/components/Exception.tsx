@@ -1,10 +1,15 @@
 import { defaultTableConfig } from '@/utils/setting';
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
-import { ModalForm, ModalFormProps, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  EditableProTable,
+  ModalForm,
+  ModalFormProps,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import { Space } from 'antd';
-import { FC } from 'react';
-import EditorTable from './EditorTable';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 
 const columns: ProColumns<any>[] = [
   {
@@ -41,14 +46,62 @@ const columns: ProColumns<any>[] = [
   },
 ];
 
+const editorColumns: ProColumns<any>[] = [
+  {
+    title: '科目',
+    dataIndex: 'type',
+    editable: false,
+  },
+  {
+    title: '值',
+    dataIndex: 'value1',
+    valueType: 'digit',
+    fieldProps: {
+      bordered: false,
+      width: '200',
+    },
+  },
+];
+
 const Exception: FC<ModalFormProps> = (props) => {
-  const { exceptionData } = useModel('EarningsComparison.model', (model) => ({
-    updateRecord: model.updateRecord,
-    exceptionData: model.exceptionData,
-  }));
+  const { data, exceptionData, periods, updateRecords } = useModel(
+    'EarningsComparison.model',
+    (model) => ({
+      updateRecord: model.updateRecord,
+      updateRecords: model.updateRecords,
+      exceptionData: model.exceptionData,
+      periods: model.periods,
+      data: model.data,
+    }),
+  );
+
+  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
+    data[periods].map((item) => item.key),
+  );
+
+  useEffect(() => {
+    const keys = data[periods].map((item) => item.key);
+    setEditableRowKeys(keys);
+  }, [periods, data]);
+
+  const errorData = useMemo(() => {
+    const keys = exceptionData[0].equation.keysToVerify;
+    return data[periods].filter((item) => keys.includes(item.key));
+  }, [exceptionData, data, periods]);
+
+  const editorDataRef = useRef<readonly any[]>();
 
   return (
-    <ModalForm title="表内公示平衡校验" autoFocusFirstInput submitter={false} {...props}>
+    <ModalForm
+      title="表内公示平衡校验"
+      autoFocusFirstInput
+      {...props}
+      onFinish={async () => {
+        // @ts-ignore
+        updateRecords(periods, editorDataRef.current);
+        return true;
+      }}
+    >
       <ProTable
         {...defaultTableConfig}
         rowKey="key"
@@ -60,7 +113,30 @@ const Exception: FC<ModalFormProps> = (props) => {
         className="inner-table"
         dataSource={exceptionData}
       />
-      <EditorTable />
+      <EditableProTable
+        className="inner-table"
+        headerTitle="公式描述"
+        size="small"
+        columns={editorColumns}
+        rowKey="key"
+        controlled={true}
+        value={errorData}
+        onChange={(value) => {
+          editorDataRef.current = value;
+        }}
+        recordCreatorProps={false}
+        editable={{
+          type: 'multiple',
+          editableKeys,
+          actionRender: (row, config, defaultDoms) => {
+            return [defaultDoms.delete];
+          },
+          // onValuesChange: (record) => {
+          //   updateRecord(periods, record);
+          // },
+          onChange: setEditableRowKeys,
+        }}
+      />
     </ModalForm>
   );
 };

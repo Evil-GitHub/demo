@@ -9,6 +9,7 @@ import Result from './components/Result';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn'; // 根据需要引入对应的语言包
+import { waitTime } from './utils';
 
 // 在应用启动时全局设置 dayjs 的语言环境
 dayjs.locale('zh-cn'); // 将其替换为你需要的语言环境
@@ -227,6 +228,7 @@ const EarningsComparison = () => {
         )}
         params={{ update: data }}
         request={async ({ periods, sourceChannel = [] }) => {
+          await waitTime(1000);
           setSourceChannel(sourceChannel);
           setPeriods(periods);
           const arr = data?.[periods] || [];

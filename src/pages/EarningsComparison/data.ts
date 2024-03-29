@@ -108,7 +108,7 @@ export const resultData = [
     type: '资产负债率',
     value1: '9.81%',
     value2: '11.03%',
-    value3: '12.82%',
+    value3: '17.82%',
     min: '6%',
     max: '12%',
   },

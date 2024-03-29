@@ -87,6 +87,24 @@ export default function Page() {
     },
     [setData],
   );
+  // 修改多条数据
+  const updateRecords = useCallback(
+    (dateKey: string, itemsToUpdate: FinancialDataItem[]) => {
+      setData((prevData) => {
+        return {
+          ...prevData,
+          [dateKey]: prevData[dateKey]?.map((item) => {
+            const updatedItem = itemsToUpdate.find((i) => i.key === item.key);
+            if (updatedItem) {
+              return { ...item, ...updatedItem };
+            }
+            return item;
+          }),
+        };
+      });
+    },
+    [setData],
+  );
 
   return {
     data,
@@ -97,5 +115,6 @@ export default function Page() {
     setPeriods,
     exceptionData,
     setExceptionType,
+    updateRecords,
   };
 }

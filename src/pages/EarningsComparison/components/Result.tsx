@@ -4,7 +4,7 @@ import { ModalForm, ProColumns, ProTable } from '@ant-design/pro-components';
 import { Space, Tooltip, Typography } from 'antd';
 import { resultData } from '../data';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const isInRangeFn = (value: string, min: string, max: string): boolean => {
   const parsedValue = Number(value.replace('%', ''));
@@ -18,9 +18,9 @@ const renderValueColumn = (text: string, record: any) => {
   if (isInRange) return text;
   return (
     <Tooltip title={`${record.min}-${record.max}`} color="green" placement="right">
-      <Text strong type="danger">
+      <Title level={4} type="danger">
         {text}
-      </Text>
+      </Title>
     </Tooltip>
   );
 };
