@@ -5,6 +5,7 @@ import { Helmet, history } from '@umijs/max';
 import classNames from 'classnames/bind';
 import React from 'react';
 
+import { waitTime } from '@/pages/EarningsComparison/utils';
 import { login } from '@/services/evil-pro-cli/login';
 import { message } from 'antd';
 import defaultSettings from 'config/defaultSettings';
@@ -14,6 +15,12 @@ const cx = classNames.bind(styles);
 
 const Login: React.FC = () => {
   const handleSubmit = async (values: any) => {
+    await waitTime(1000);
+    message.success('登录成功');
+    localStorage.setItem('EVIL_PRO_CLI_TOKEN', '123');
+    history.push('/');
+    window.location.reload();
+    return;
     try {
       // 登录
       const res = await login(values);
