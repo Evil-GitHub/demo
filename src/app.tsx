@@ -1,5 +1,4 @@
 import { AvatarDropdown, AvatarName, Footer } from '@/components';
-import { currentUser as queryCurrentUser } from '@/services/evil-pro-cli/api';
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
@@ -61,9 +60,8 @@ export async function getInitialState(): Promise<{
         address: '江苏省 徐州市 睢宁县',
         phone: '11255057362',
       };
-      return;
-      const msg = await queryCurrentUser();
-      return msg?.data;
+      // const msg = await queryCurrentUser();
+      // return msg?.data;
     } catch (error) {
       history.push(loginPath);
     }

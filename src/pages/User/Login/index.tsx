@@ -6,7 +6,6 @@ import classNames from 'classnames/bind';
 import React from 'react';
 
 import { waitTime } from '@/pages/EarningsComparison/utils';
-import { login } from '@/services/evil-pro-cli/login';
 import { message } from 'antd';
 import defaultSettings from 'config/defaultSettings';
 import styles from './index.less';
@@ -14,29 +13,28 @@ import styles from './index.less';
 const cx = classNames.bind(styles);
 
 const Login: React.FC = () => {
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async () => {
     await waitTime(1000);
     message.success('登录成功');
     localStorage.setItem('EVIL_PRO_CLI_TOKEN', '123');
     history.push('/');
     window.location.reload();
-    return;
-    try {
-      // 登录
-      const res = await login(values);
-      const { code, data } = res || {};
-      if (code === 200) {
-        message.success('登录成功');
-        localStorage.setItem('EVIL_PRO_CLI_TOKEN', data?.authorization || '');
-        setTimeout(() => {
-          history.push('/');
-          window.location.reload();
-        }, 500);
-        return;
-      }
-    } catch (error) {
-      console.log('🚗 🚗 🚗 ~ file: index.tsx:47 ~ handleSubmit ~ error:', error);
-    }
+    // try {
+    //   // 登录
+    //   const res = await login(values);
+    //   const { code, data } = res || {};
+    //   if (code === 200) {
+    //     message.success('登录成功');
+    //     localStorage.setItem('EVIL_PRO_CLI_TOKEN', data?.authorization || '');
+    //     setTimeout(() => {
+    //       history.push('/');
+    //       window.location.reload();
+    //     }, 500);
+    //     return;
+    //   }
+    // } catch (error) {
+    //   console.log('🚗 🚗 🚗 ~ file: index.tsx:47 ~ handleSubmit ~ error:', error);
+    // }
   };
 
   return (
@@ -54,8 +52,8 @@ const Login: React.FC = () => {
             }}
             logo={<img alt="logo" src="/images/logo_simple.png" />}
             title={defaultSettings?.title}
-            onFinish={async (values) => {
-              await handleSubmit(values as any);
+            onFinish={async () => {
+              await handleSubmit();
             }}
           >
             <ProFormText
