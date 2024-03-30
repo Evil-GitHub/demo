@@ -13,10 +13,10 @@ export const defaultTableConfig: Record<string, any> = {
     disabled: false,
   },
   scroll: { x: 'max-content' },
-  form: {
-    syncToUrl: true,
-    syncToInitialValues: false,
-  },
+  // form: {
+  //   syncToUrl: true,
+  //   syncToInitialValues: false,
+  // },
 };
 
 export const BASE_URL = '';

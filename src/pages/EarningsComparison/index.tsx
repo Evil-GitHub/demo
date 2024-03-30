@@ -153,6 +153,9 @@ const EarningsComparison = () => {
         1: { text: '客户1', status: 'Default' },
       },
       initialValue: '1',
+      fieldProps: {
+        allowClear: false,
+      },
     },
     {
       title: '财报期数',
@@ -160,6 +163,9 @@ const EarningsComparison = () => {
       hideInTable: true,
       initialValue: '2024-03',
       valueType: 'dateMonth',
+      fieldProps: {
+        allowClear: false,
+      },
     },
     {
       title: '财报类型',
