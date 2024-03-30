@@ -6,33 +6,66 @@ import React, { useMemo, useRef, useState } from 'react';
 import BalanceCheckException from './components/BalanceCheckException';
 import Exception from './components/Exception';
 import Result from './components/Result';
-
-import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn'; // 根据需要引入对应的语言包
 import { waitTime } from './utils';
 
-// 在应用启动时全局设置 dayjs 的语言环境
-dayjs.locale('zh-cn'); // 将其替换为你需要的语言环境
+const greenColor = '#f6ffec'; // 定义绿色
+const yellowColor = '#fff566';
 
-function compareValues(value1: number, value2: number, value3: number): boolean {
-  return value1 !== value2 || value1 !== value3 || value2 !== value3;
-}
+const compareAndSetRowStyle = (record: any, initialSourceChannel: string[] = []) => {
+  if (initialSourceChannel.length < 2) return {};
+  let allValuesMatch = true;
 
-const greenColor = '#87d068'; // 定义绿色
-const redColor = '#f50'; // 定义红色
+  // 创建一个集合用于存储已检查过的字段值
+  const checkedFieldValues = new Set<number | string>();
 
-const compareAndSetRowStyle = (record: any) => {
-  const inconsistent = compareValues(record.value1, record.value2, record.value3);
-  const rowStyle: React.CSSProperties = {
-    backgroundColor: '#f6ffed',
-  };
-  if (inconsistent) {
-    rowStyle.backgroundColor = 'yellow'; // 设置为黄色背景
+  for (const field of initialSourceChannel) {
+    if (!record.hasOwnProperty(field)) {
+      continue; // 如果记录中不存在该字段，则跳过本次循环
+    }
+
+    // 获取字段值
+    const fieldValue = record[field];
+
+    // 如果之前已经检查过相同的值，则不需要再次比较
+    if (checkedFieldValues.has(fieldValue)) {
+      continue;
+    }
+
+    // 添加当前字段值到已检查过的集合中
+    checkedFieldValues.add(fieldValue);
+
+    // 检查后续字段的值是否与当前字段值相同
+    for (const otherField of initialSourceChannel.slice(initialSourceChannel.indexOf(field) + 1)) {
+      if (record.hasOwnProperty(otherField) && record[otherField] !== fieldValue) {
+        allValuesMatch = false;
+        break;
+      }
+    }
+
+    if (!allValuesMatch) {
+      break;
+    }
   }
-  return rowStyle;
+
+  // 根据比较结果设置样式
+  return {
+    backgroundColor: allValuesMatch ? greenColor : yellowColor,
+  };
 };
 
-const initialSourceChannel = ['1', '2', '3'];
+const extractValuesByFields = (record: any, fields: string[]): number[] => {
+  return fields
+    .map((field) => {
+      if (record.hasOwnProperty(field)) {
+        return record[field];
+      } else {
+        return null; // 或者返回undefined，取决于你的业务需求
+      }
+    })
+    .filter((value) => value !== null && value !== undefined) as number[];
+};
+
+const initialSourceChannel = ['value1'];
 
 const EarningsComparison = () => {
   const tableRef = useRef<ActionType | undefined>();
@@ -55,6 +88,19 @@ const EarningsComparison = () => {
     () => exceptionData.some((item) => !item.passes),
     [exceptionData, data, periods],
   );
+
+  const customRender = (field: string) => (dom: React.ReactNode, record: any) => {
+    if (sourceChannel.length < 2) return dom;
+
+    const arr = extractValuesByFields(
+      record,
+      sourceChannel.filter((item) => item !== field),
+    );
+    const existsSome = arr.includes(record[field]);
+    const color = existsSome ? '#5b8c00' : '#ff4d4f';
+
+    return <span style={{ color }}>{dom}</span>;
+  };
 
   const columns: ProColumns<any>[] = [
     {
@@ -80,42 +126,24 @@ const EarningsComparison = () => {
       ),
       width: 250,
       hideInSearch: true,
-      render: (text, record) => {
-        const color =
-          record.value1 === record.value2 || record.value1 === record.value3
-            ? greenColor
-            : redColor;
-        return <span style={{ color }}>{text}</span>;
-      },
-      hideInTable: !sourceChannel.includes('1'),
+      hideInTable: !sourceChannel.includes('value1'),
+      render: customRender('value1'),
     },
     {
       title: '企查查',
       dataIndex: 'value2',
       width: 250,
       hideInSearch: true,
-      render: (text, record) => {
-        const color =
-          record.value2 === record.value1 || record.value2 === record.value3
-            ? greenColor
-            : redColor;
-        return <span style={{ color }}>{text}</span>;
-      },
-      hideInTable: !sourceChannel.includes('2'),
+      hideInTable: !sourceChannel.includes('value2'),
+      render: customRender('value2'),
     },
     {
       title: '客户提供',
       dataIndex: 'value3',
       width: 250,
       hideInSearch: true,
-      render: (text, record) => {
-        const color =
-          record.value3 === record.value1 || record.value3 === record.value2
-            ? greenColor
-            : redColor;
-        return <span style={{ color }}>{text}</span>;
-      },
-      hideInTable: !sourceChannel.includes('3'),
+      hideInTable: !sourceChannel.includes('value3'),
+      render: customRender('value3'),
     },
     {
       title: '客户',
@@ -123,8 +151,6 @@ const EarningsComparison = () => {
       hideInTable: true,
       valueEnum: {
         1: { text: '客户1', status: 'Default' },
-        2: { text: '客户2', status: 'Default' },
-        3: { text: '客户3', status: 'Default' },
       },
       initialValue: '1',
     },
@@ -149,9 +175,9 @@ const EarningsComparison = () => {
     {
       title: '来源渠道',
       valueEnum: {
-        1: { text: '同花顺' },
-        2: { text: '企查查' },
-        3: { text: '客户提供' },
+        value1: { text: '同花顺' },
+        value2: { text: '企查查' },
+        value3: { text: '客户提供' },
       },
       valueType: 'checkbox',
       dataIndex: 'sourceChannel',
@@ -205,7 +231,7 @@ const EarningsComparison = () => {
           },
         }}
         onRow={(record) => ({
-          style: compareAndSetRowStyle(record),
+          style: compareAndSetRowStyle(record, sourceChannel),
         })}
         tableRender={(_, dom) => (
           <Flex gap="middle">
@@ -232,8 +258,17 @@ const EarningsComparison = () => {
           setSourceChannel(sourceChannel);
           setPeriods(periods);
           const arr = data?.[periods] || [];
+          // 过滤数据并只保留指定字段以及固定的key和type字段
+          const filteredData = arr.map((item) => {
+            const partialItem = { key: item.key, type: item.type };
+            return Object.assign(
+              partialItem,
+              ...(sourceChannel as string[]).map((field) => ({ [field]: item[field] })),
+            );
+          });
+
           return {
-            data: arr,
+            data: filteredData,
             success: true,
           };
         }}
