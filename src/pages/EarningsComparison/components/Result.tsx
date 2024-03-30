@@ -18,7 +18,7 @@ const renderValueColumn = (text: string, record: any) => {
   if (isInRange) return text;
   return (
     <Tooltip title={`${record.min}-${record.max}`} color="green" placement="right">
-      <Title level={4} type="danger">
+      <Title level={4} type="danger" style={{ display: 'inline-block' }}>
         {text}
       </Title>
     </Tooltip>
