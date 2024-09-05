@@ -86,7 +86,7 @@ export async function getInitialState(): Promise<{
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     avatarProps: {
-      src: initialState?.currentUser?.avatar || '/images/user.svg',
+      // src: initialState?.currentUser?.avatar || '/images/user.svg',
       title: <AvatarName />,
       render: (_, avatarChildren) => {
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;

@@ -1,6 +1,5 @@
 // https://umijs.org/config/
 import { defineConfig } from '@umijs/max';
-import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
@@ -160,9 +159,9 @@ export default defineConfig({
     {
       requestLibPath: "import { request } from '@umijs/max'",
       // 或者使用在线的版本
-      // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
-      schemaPath: join(__dirname, 'oneapi.json'),
-      mock: true,
+      schemaPath: `${defaultSettings.target}/v3/api-docs`,
+      // schemaPath: join(__dirname, 'oneapi.json'),
+      mock: false,
     },
   ],
   mfsu: {
@@ -175,7 +174,12 @@ export default defineConfig({
       {
         'process.env.FRONTEND_BRANCH_NAME': JSON.stringify(process.env.FRONTEND_BRANCH_NAME),
         'process.env.COMMIT_HASH': JSON.stringify(process.env.VERSION),
+        // microservice 微服务版本 、standalone 单机版
+        'process.env.APP_MODE': JSON.stringify(process.env.APP_MODE),
       },
     ]);
+  },
+  qiankun: {
+    slave: {},
   },
 });

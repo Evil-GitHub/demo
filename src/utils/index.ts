@@ -238,3 +238,34 @@ export const calculatePercentage = (val: number, total: number) => {
 
   return formattedPercentage;
 };
+
+/**
+ * 获取头像颜色
+ * @param charCode
+ * @returns
+ */
+export const getGradientColorFromCharCode = (charCode: number) => {
+  if (isNaN(charCode)) return {};
+  const hue = charCode % 360;
+  const colorArray = [
+    ['#21D4FD', '#B721FF'],
+    ['#4158D0', '#C850C0'],
+    ['#5BDED1', '#DC32B9'],
+    ['#36A415', '#1F65A6'],
+    ['#FBDA61', '#FF5ACD'],
+    ['#3EECAC', '#EE74E1'],
+  ];
+  // 根据 charCode 计算索引
+  const combinationIndex = charCode % colorArray.length;
+
+  // 获取对应索引的颜色组合
+  const randomCombination = colorArray[combinationIndex];
+  const [color1, color2] = randomCombination;
+  return {
+    backgroundColor: color1,
+    backgroundImage: `linear-gradient(${hue}deg, ${color1} 0%, ${color2} 100%)`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    border: 'none',
+  };
+};

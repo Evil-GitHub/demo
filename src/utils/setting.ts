@@ -19,8 +19,6 @@ export const defaultTableConfig: Record<string, any> = {
   // },
 };
 
-export const BASE_URL = '';
-
 export const requiredRule = {
   required: true,
   message: '此项为必填项',

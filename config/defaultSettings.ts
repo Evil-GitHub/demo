@@ -6,7 +6,10 @@ import { ProLayoutProps } from '@ant-design/pro-components';
 const defaultSettings: ProLayoutProps & {
   pwa?: boolean;
   logo?: string;
+  target?: string;
+  BASE_URL?: string;
 } = {
+  BASE_URL: '',
   breakpoint: 'xxl',
   navTheme: 'light',
   // 明青 Cyan-6
@@ -16,7 +19,7 @@ const defaultSettings: ProLayoutProps & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '金控业务系统',
+  title: 'XXXX系统',
   pwa: true,
   logo: '/images/logo.png',
   iconfontUrl: '',
@@ -35,6 +38,7 @@ const defaultSettings: ProLayoutProps & {
       paddingInlinePageContainerContent: 36,
     },
   },
+  target: 'http://192.168.100.102:32355',
 };
 
 export default defaultSettings;

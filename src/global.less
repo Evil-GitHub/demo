@@ -13,13 +13,6 @@ body,
   filter: invert(80%);
 }
 
-.ant-layout {
-  min-height: 100vh;
-}
-.ant-pro-sider.ant-layout-sider.ant-pro-sider-fixed {
-  left: unset;
-}
-
 canvas {
   display: block;
 }
@@ -33,23 +26,6 @@ body {
 ul,
 ol {
   list-style: none;
-}
-
-@media (max-width: 768px) {
-  .ant-table {
-    width: 100%;
-    overflow-x: auto;
-    &-thead > tr,
-    &-tbody > tr {
-      > th,
-      > td {
-        white-space: pre;
-        > span {
-          display: block;
-        }
-      }
-    }
-  }
 }
 
 /*滚动条样式*/
@@ -86,48 +62,6 @@ select:-webkit-autofill {
   //设置input输入框的背景颜色为透明色
   -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
   transition: background-color 50000s ease-in-out 0s;
-}
-
-// 主题重置
-
-a {
-  color: var(--ant-primary-color);
-  &:not(:disabled)&:not(.ant-btn-disabled)&:hover {
-    color: var(--ant-primary-color-hover);
-  }
-}
-
-// 组件样式重置
-.ant-layout-content {
-  min-height: calc(100vh - 120px) !important;
-}
-// link 按钮
-.ant-btn-link {
-  color: var(--ant-primary-color);
-  &:not(:disabled)&:not(.ant-btn-disabled)&:hover {
-    color: var(--ant-primary-color-hover);
-  }
-}
-
-// modal
-.ant-modal {
-  .ant-modal-header {
-    margin-bottom: 16px;
-  }
-}
-
-// container
-
-.ant-pro-page-container {
-  .ant-page-header {
-    background-color: #fff;
-  }
-}
-// 底部
-.ant-layout-footer {
-  .ant-pro-global-footer {
-    margin: 24px 0;
-  }
 }
 
 // 公共样式

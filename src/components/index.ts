@@ -9,4 +9,9 @@ import Footer from './Footer';
 import { Question, SelectLang } from './RightContent';
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown';
 
-export { AvatarDropdown, AvatarName, Footer, Question, SelectLang };
+/**
+ * 基础组件
+ */
+import Avatar from './Avatar';
+
+export { Avatar, AvatarDropdown, AvatarName, Footer, Question, SelectLang };
