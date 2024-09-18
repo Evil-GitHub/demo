@@ -38,6 +38,10 @@ const defaultSettings: ProLayoutProps & {
       paddingInlinePageContainerContent: 24,
     },
   },
+  menu: {
+    autoClose: false,
+    locale: false,
+  },
   target: 'http://192.168.100.102:32355',
 };
 
