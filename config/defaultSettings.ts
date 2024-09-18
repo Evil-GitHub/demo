@@ -34,8 +34,8 @@ const defaultSettings: ProLayoutProps & {
       colorTextRightActionsItem: 'rgba(0, 0, 0, 0.88)',
     },
     pageContainer: {
-      paddingBlockPageContainerContent: 36,
-      paddingInlinePageContainerContent: 36,
+      paddingBlockPageContainerContent: 24,
+      paddingInlinePageContainerContent: 24,
     },
   },
   target: 'http://192.168.100.102:32355',

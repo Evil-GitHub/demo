@@ -80,3 +80,13 @@ select:-webkit-autofill {
     padding-inline: 0;
   }
 }
+
+// 主题重置
+
+a {
+  color: var(--ant-primary-color);
+  // 非禁用状态下的链接悬停颜色
+  &:not([disabled]):not(.ant-btn-disabled):hover {
+    color: var(--ant-primary-color-hover);
+  }
+}
